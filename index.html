@@ -14,6 +14,14 @@ body.dark{--bg:#0b1220;--panel:#141e30;--text:#f2f5fb;--muted:#a8b4c8;--line:#2a
 .tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;margin-bottom:8px}.tab{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:10px 13px;border-radius:12px;font-weight:650}.tab.active{background:var(--soft);color:var(--accent);border-color:var(--accent)}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:16px;margin-bottom:13px;box-shadow:0 5px 18px #14213a08}.display{min-height:118px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;overflow-wrap:anywhere}.small{font-size:14px;color:var(--muted);min-height:24px}.result{font-size:clamp(32px,9vw,48px);font-weight:750;letter-spacing:-1.4px;max-width:100%;overflow-wrap:anywhere}.keys{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.key{border:0;border-radius:15px;min-height:58px;background:var(--key);color:var(--text);font-size:21px;font-weight:650}.key.op{color:var(--accent);background:var(--soft)}.key.eq{background:var(--accent);color:white}.key.clear{color:var(--danger)}.section-title{font-size:17px;margin:2px 0 13px}.field{display:flex;flex-direction:column;gap:6px;margin:12px 0}.field label{font-size:13px;color:var(--muted);font-weight:650}.field input,.field select{width:100%;padding:13px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:16px}.primary{width:100%;border:0;border-radius:13px;padding:14px;background:var(--accent);color:#fff;font-size:16px;font-weight:750;margin-top:8px}.output{background:var(--soft);border-radius:14px;padding:14px;margin-top:14px}.outlabel{color:var(--muted);font-size:13px}.outvalue{font-size:24px;font-weight:800;margin-top:3px;overflow-wrap:anywhere}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.muted{color:var(--muted)}.history-item{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.history-item:last-child{border-bottom:0}.history-item small{display:block;color:var(--muted);margin-top:3px}.empty{text-align:center;color:var(--muted);padding:24px 6px}.foot{text-align:center;font-size:11px;color:var(--muted);padding:12px 0}.adslot{border:1px dashed var(--line);border-radius:12px;text-align:center;color:var(--muted);font-size:11px;padding:10px;margin:12px 0 4px}.hidden{display:none!important}
 </style>
+
+  <meta name="theme-color" content="#1d4ed8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+
 </head>
 <body>
 <div class="app">
@@ -89,4 +97,15 @@ $('profitBtn').onclick=()=>{let c=+$('cost').value,s=+$('selling').value;if(c<=0
 $('emiBtn').onclick=()=>{let p=+$('loan').value,annual=+$('rate').value,y=+$('years').value;if(p<=0||annual<0||y<=0)return;let n=Math.round(y*12),r=annual/1200,emi=r===0?p/n:p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1),total=emi*n,interest=total-p;$('emiOut').innerHTML=`<div><div class="outlabel">Monthly EMI</div><div class="outvalue">${money(emi)}</div></div><div class="grid2" style="margin-top:12px"><div><div class="outlabel">Total interest</div><strong>${money(interest)}</strong></div><div><div class="outlabel">Total repayment</div><strong>${money(total)}</strong></div></div>`;saveHistory('EMI ('+y+' years)',money(emi)+' / month')};
 $('clearHistory').onclick=()=>{if(confirm('Clear all calculation history?')){history=[];localStorage.removeItem('bharatCalcHistory');renderHistory()}};renderHistory();
 </script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js").catch(function (err) {
+      console.log("Service worker registration failed:", err);
+    });
+  });
+}
+</script>
+
 </body></html>
