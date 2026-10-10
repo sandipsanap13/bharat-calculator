@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<title>Bharat Calculator</title>
+<style>
+:root{--bg:#f3f6fb;--panel:#fff;--text:#152238;--muted:#68758b;--line:#e1e7f0;--accent:#246bfd;--soft:#eaf1ff;--key:#f1f4f9;--danger:#d83b50}
+body.dark{--bg:#0b1220;--panel:#141e30;--text:#f2f5fb;--muted:#a8b4c8;--line:#2a3850;--accent:#77a4ff;--soft:#1e3154;--key:#202d42;--danger:#ff7185}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.app{max-width:520px;margin:0 auto;min-height:100vh;padding:12px 14px 28px}.top{display:flex;justify-content:space-between;align-items:center;margin:4px 0 14px}.brand{display:flex;align-items:center;gap:9px;min-width:0}.logo{background:var(--accent);color:white;width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:22px;font-weight:800;flex-shrink:0}.brand h1{font-size:19px;margin:0}.brand p{font-size:12px;color:var(--muted);margin:2px 0 0}.iconbtn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:12px;padding:10px 12px;font-size:18px}.menuBtn{font-size:22px;padding:8px 10px;border:0;background:transparent}
+.drawer-shade{position:fixed;inset:0;background:#0008;z-index:20}.drawer{position:fixed;z-index:21;top:0;bottom:0;left:0;width:min(82vw,340px);background:var(--panel);color:var(--text);box-shadow:12px 0 36px #0002;transform:translateX(-105%);transition:transform .22s ease;padding:18px 12px;overflow-y:auto}.drawer.open{transform:translateX(0)}.drawer-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 4px 22px}.drawer-brand{display:flex;align-items:center;gap:10px}.drawer-brand strong{display:block;font-size:16px}.drawer-brand small{display:block;color:var(--muted);margin-top:3px}.drawer-label{font-size:11px;letter-spacing:1px;font-weight:800;color:var(--muted);padding:12px 12px 7px}.drawer-item{display:flex;align-items:center;gap:13px;width:100%;padding:14px 13px;border:0;border-radius:12px;background:transparent;color:var(--text);font-size:16px;text-align:left;font-weight:600}.drawer-item span{width:24px;text-align:center;font-size:20px;color:var(--accent)}.drawer-item.active{background:var(--soft);color:var(--accent)}.drawer-note{border-top:1px solid var(--line);margin-top:18px;padding:16px 12px;color:var(--muted);font-size:12px}body.drawer-open{overflow:hidden}
+.tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;margin-bottom:8px}.tab{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:10px 13px;border-radius:12px;font-weight:650}.tab.active{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:16px;margin-bottom:13px;box-shadow:0 5px 18px #14213a08}.display{min-height:118px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;overflow-wrap:anywhere}.small{font-size:14px;color:var(--muted);min-height:24px}.result{font-size:clamp(32px,9vw,48px);font-weight:750;letter-spacing:-1.4px;max-width:100%;overflow-wrap:anywhere}.keys{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.key{border:0;border-radius:15px;min-height:58px;background:var(--key);color:var(--text);font-size:21px;font-weight:650}.key.op{color:var(--accent);background:var(--soft)}.key.eq{background:var(--accent);color:white}.key.clear{color:var(--danger)}.section-title{font-size:17px;margin:2px 0 13px}.field{display:flex;flex-direction:column;gap:6px;margin:12px 0}.field label{font-size:13px;color:var(--muted);font-weight:650}.field input,.field select{width:100%;padding:13px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:16px}.primary{width:100%;border:0;border-radius:13px;padding:14px;background:var(--accent);color:#fff;font-size:16px;font-weight:750;margin-top:8px}.output{background:var(--soft);border-radius:14px;padding:14px;margin-top:14px}.outlabel{color:var(--muted);font-size:13px}.outvalue{font-size:24px;font-weight:800;margin-top:3px;overflow-wrap:anywhere}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.muted{color:var(--muted)}.history-item{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.history-item:last-child{border-bottom:0}.history-item small{display:block;color:var(--muted);margin-top:3px}.empty{text-align:center;color:var(--muted);padding:24px 6px}.foot{text-align:center;font-size:11px;color:var(--muted);padding:12px 0}.adslot{border:1px dashed var(--line);border-radius:12px;text-align:center;color:var(--muted);font-size:11px;padding:10px;margin:12px 0 4px}.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <button class="iconbtn menuBtn" id="menuBtn" aria-label="Open calculator menu">☰</button>
+      <div class="logo">₹</div><div><h1>Bharat Calculator</h1><p>Smart everyday calculations</p></div>
+    </div>
+    <button class="iconbtn" id="themeBtn" aria-label="Toggle dark mode">☾</button>
+  </header>
+  <div id="drawerShade" class="drawer-shade hidden"></div>
+  <aside id="drawer" class="drawer" aria-label="Calculator menu">
+    <div class="drawer-head">
+      <div class="drawer-brand"><div class="logo">₹</div><div><strong>Bharat Calculator</strong><small>Tools & calculators</small></div></div>
+      <button class="iconbtn" id="closeDrawer" aria-label="Close menu">×</button>
+    </div>
+    <div class="drawer-label">CALCULATORS</div>
+    <button class="drawer-item active" data-view="calc"><span>▦</span>Calculator</button>
+    <button class="drawer-item" data-view="gst"><span>％</span>GST & Discount</button>
+    <button class="drawer-item" data-view="profit"><span>₹</span>Profit & Loss</button>
+    <button class="drawer-item" data-view="emi"><span>▤</span>EMI Calculator</button>
+    <button class="drawer-item" data-view="history"><span>◷</span>Calculation History</button>
+    <div class="drawer-label">PREFERENCES</div>
+    <button class="drawer-item" id="drawerTheme"><span>☾</span>Toggle Dark Mode</button>
+    <div class="drawer-note">Quick calculations for everyday use.</div>
+  </aside>
+  <main>
+    <section id="view-calc" class="view">
+      <div class="panel display"><div class="small" id="expr">Ready</div><div class="result" id="screen">0</div></div>
+      <div class="panel"><div class="keys">
+        <button class="key clear" data-action="clear">AC</button><button class="key" data-action="back">⌫</button><button class="key op" data-val="%">%</button><button class="key op" data-val="/">÷</button>
+        <button class="key" data-val="7">7</button><button class="key" data-val="8">8</button><button class="key" data-val="9">9</button><button class="key op" data-val="*">×</button>
+        <button class="key" data-val="4">4</button><button class="key" data-val="5">5</button><button class="key" data-val="6">6</button><button class="key op" data-val="-">−</button>
+        <button class="key" data-val="1">1</button><button class="key" data-val="2">2</button><button class="key" data-val="3">3</button><button class="key op" data-val="+">+</button>
+        <button class="key" data-val="00">00</button><button class="key" data-val="0">0</button><button class="key" data-val=".">.</button><button class="key eq" data-action="equals">=</button>
+      </div></div>
+    </section>
+    <section id="view-gst" class="view hidden">
+      <div class="panel"><h2 class="section-title">GST Calculator</h2>
+        <div class="field"><label for="gstAmount">Amount (₹)</label><input id="gstAmount" type="number" min="0" value="1000" inputmode="decimal"></div>
+        <div class="field"><label for="gstRate">GST rate</label><select id="gstRate"><option value="0">0%</option><option value="3">3%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
+        <div class="field"><label for="gstMode">Amount type</label><select id="gstMode"><option value="add">Add GST to amount</option><option value="included">GST included in amount</option></select></div>
+        <button class="primary" id="gstBtn">Calculate GST</button><div id="gstOut" class="output"><div class="outlabel">Total amount</div><div class="outvalue">₹1,180.00</div></div>
+      </div>
+      <div class="panel"><h2 class="section-title">Discount Calculator</h2><div class="field"><label for="discPrice">Original price (₹)</label><input id="discPrice" type="number" min="0" value="1500" inputmode="decimal"></div><div class="field"><label for="discRate">Discount (%)</label><input id="discRate" type="number" min="0" max="100" value="10" inputmode="decimal"></div><button class="primary" id="discBtn">Calculate Discount</button><div id="discOut" class="output"><div class="outlabel">Final price</div><div class="outvalue">₹1,350.00</div></div></div>
+    </section>
+    <section id="view-profit" class="view hidden"><div class="panel"><h2 class="section-title">Profit & Loss Calculator</h2><div class="field"><label for="cost">Cost price (₹)</label><input id="cost" type="number" min="0" value="800" inputmode="decimal"></div><div class="field"><label for="selling">Selling price (₹)</label><input id="selling" type="number" min="0" value="1000" inputmode="decimal"></div><button class="primary" id="profitBtn">Calculate Profit / Loss</button><div id="profitOut" class="output"><div class="outlabel">Result</div><div class="outvalue">₹200.00 profit (25.00%)</div></div></div></section>
+    <section id="view-emi" class="view hidden"><div class="panel"><h2 class="section-title">EMI Calculator</h2><div class="field"><label for="loan">Loan amount (₹)</label><input id="loan" type="number" min="0" value="500000" inputmode="decimal"></div><div class="field"><label for="rate">Annual interest rate (%)</label><input id="rate" type="number" min="0" step="0.1" value="9" inputmode="decimal"></div><div class="field"><label for="years">Loan tenure (years)</label><input id="years" type="number" min="0.1" step="0.1" value="5" inputmode="decimal"></div><button class="primary" id="emiBtn">Calculate EMI</button><div id="emiOut" class="output"><div class="outlabel">Monthly EMI</div><div class="outvalue">₹10,379.16</div></div></div></section>
+    <section id="view-history" class="view hidden"><div class="panel"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h2 class="section-title">Calculation History</h2><button class="iconbtn" id="clearHistory" style="font-size:13px">Clear</button></div><div id="historyList" class="empty">Your calculations will appear here.</div></div></section>
+  </main>
+  <div class="adslot">Ad space reserved — ads are not active in this prototype.</div>
+  <div class="foot">Bharat Calculator • Check important financial calculations independently.</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);let expr='',justSolved=false;let history=JSON.parse(localStorage.getItem('bharatCalcHistory')||'[]');
+const money=n=>'₹'+Number(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+function saveHistory(label,result){history.unshift({label,result,time:new Date().toLocaleString()});history=history.slice(0,100);localStorage.setItem('bharatCalcHistory',JSON.stringify(history));renderHistory()}
+function renderHistory(){const el=$('historyList');if(!history.length){el.className='empty';el.textContent='Your calculations will appear here.';return}el.className='';el.innerHTML=history.map((h,i)=>`<div class="history-item"><div><strong>${escapeHtml(h.label)}</strong><small>${escapeHtml(h.time)}</small></div><strong>${escapeHtml(h.result)}</strong></div>`).join('')}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function display(){ $('screen').textContent=expr||'0'; $('expr').textContent=justSolved?'Result':' '}
+function safeEval(s){if(!/^[0-9+\-*/().% ]+$/.test(s))throw Error('Invalid');s=s.replace(/(\d+(?:\.\d+)?)%/g,'($1/100)');if(!s.trim()||/[+\-*/.]$/.test(s))throw Error('Incomplete');let v=Function('"use strict";return ('+s+')')();if(!Number.isFinite(v))throw Error('Cannot divide by zero');return v}
+document.querySelectorAll('.key').forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.action,v=b.dataset.val;if(a==='clear'){expr='';justSolved=false;display();return}if(a==='back'){expr=expr.slice(0,-1);justSolved=false;display();return}if(a==='equals'){try{let original=expr;let result=safeEval(expr);$('expr').textContent=original+' =';expr=String(Number(result.toPrecision(12)));$('screen').textContent=Number(result).toLocaleString('en-IN',{maximumFractionDigits:10});justSolved=true;saveHistory(original,Number(result).toLocaleString('en-IN',{maximumFractionDigits:10}))}catch(e){$('expr').textContent=e.message==='Cannot divide by zero'?'Cannot divide by zero':'Check expression'}return}if(justSolved&&!['+','-','*','/','%'].includes(v))expr='';justSolved=false;expr+=v;display()}));
+function selectView(view){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('hidden',x.id!=='view-'+view));document.querySelectorAll('.drawer-item[data-view]').forEach(x=>x.classList.toggle('active',x.dataset.view===view));if(view==='history')renderHistory();closeMenu()}
+document.querySelectorAll('.drawer-item[data-view]').forEach(b=>b.addEventListener('click',()=>selectView(b.dataset.view)));
+function openMenu(){$('drawer').classList.add('open');$('drawerShade').classList.remove('hidden');document.body.classList.add('drawer-open')}
+function closeMenu(){$('drawer').classList.remove('open');$('drawerShade').classList.add('hidden');document.body.classList.remove('drawer-open')}
+$('menuBtn').addEventListener('click',openMenu);$('closeDrawer').addEventListener('click',closeMenu);$('drawerShade').addEventListener('click',closeMenu);
+$('drawerTheme').addEventListener('click',()=>{$('themeBtn').click();closeMenu()});
+$('themeBtn').addEventListener('click',()=>{document.body.classList.toggle('dark');localStorage.setItem('bharatCalcDark',document.body.classList.contains('dark')?'1':'0');$('themeBtn').textContent=document.body.classList.contains('dark')?'☀':'☾'});if(localStorage.getItem('bharatCalcDark')==='1'){document.body.classList.add('dark');$('themeBtn').textContent='☀'}
+$('gstBtn').onclick=()=>{let a=+ $('gstAmount').value,r=+$('gstRate').value,mode=$('gstMode').value;if(a<0||!Number.isFinite(a))return;let tax,total,base;if(mode==='add'){base=a;tax=a*r/100;total=a+tax}else{total=a;base=a/(1+r/100);tax=total-base}$('gstOut').innerHTML=`<div class="grid2"><div><div class="outlabel">Base amount</div><div class="outvalue">${money(base)}</div></div><div><div class="outlabel">GST amount</div><div class="outvalue">${money(tax)}</div></div></div><div style="margin-top:12px"><div class="outlabel">Total amount</div><div class="outvalue">${money(total)}</div></div>`;saveHistory('GST '+r+'%',money(total))};
+$('discBtn').onclick=()=>{let p=+$('discPrice').value,r=+$('discRate').value;if(p<0||r<0||r>100)return;let d=p*r/100,f=p-d;$('discOut').innerHTML=`<div class="grid2"><div><div class="outlabel">You save</div><div class="outvalue">${money(d)}</div></div><div><div class="outlabel">Final price</div><div class="outvalue">${money(f)}</div></div></div>`;saveHistory('Discount '+r+'%',money(f))};
+$('profitBtn').onclick=()=>{let c=+$('cost').value,s=+$('selling').value;if(c<=0||s<0)return;let d=s-c,pct=Math.abs(d)/c*100,label=d>0?'Profit':d<0?'Loss':'No profit, no loss';$('profitOut').innerHTML=`<div class="outlabel">${label}</div><div class="outvalue">${money(Math.abs(d))} (${pct.toFixed(2)}%)</div>`;saveHistory('Profit / Loss',label+' '+money(Math.abs(d)))};
+$('emiBtn').onclick=()=>{let p=+$('loan').value,annual=+$('rate').value,y=+$('years').value;if(p<=0||annual<0||y<=0)return;let n=Math.round(y*12),r=annual/1200,emi=r===0?p/n:p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1),total=emi*n,interest=total-p;$('emiOut').innerHTML=`<div><div class="outlabel">Monthly EMI</div><div class="outvalue">${money(emi)}</div></div><div class="grid2" style="margin-top:12px"><div><div class="outlabel">Total interest</div><strong>${money(interest)}</strong></div><div><div class="outlabel">Total repayment</div><strong>${money(total)}</strong></div></div>`;saveHistory('EMI ('+y+' years)',money(emi)+' / month')};
+$('clearHistory').onclick=()=>{if(confirm('Clear all calculation history?')){history=[];localStorage.removeItem('bharatCalcHistory');renderHistory()}};renderHistory();
+</script>
+</body></html>
